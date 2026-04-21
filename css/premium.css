@@ -232,22 +232,36 @@ button { font-family: var(--font-sans); }
   gap: 0.75rem;
 }
 .nav-btn {
-  width: 36px; height: 36px;
+  width: 38px; height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(201, 168, 76, 0.35);
-  background: none;
+  border: 1.5px solid rgba(201, 168, 76, 0.55);
+  background: rgba(201, 168, 76, 0.08);
   color: var(--gold);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 1rem;
   transition: var(--t-base);
 }
 .nav-btn:hover {
-  background: rgba(201, 168, 76, 0.12);
+  background: rgba(201, 168, 76, 0.2);
   border-color: var(--gold);
-  transform: scale(1.05);
+  transform: scale(1.07);
+}
+/* On light scrolled nav, make icons clearly visible */
+.premium-nav.scrolled .nav-btn {
+  border-color: rgba(58, 46, 42, 0.3);
+  color: var(--text-dark);
+}
+.premium-nav.scrolled .nav-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201, 168, 76, 0.12);
+}
+[data-theme="dark"] .premium-nav.scrolled .nav-btn {
+  border-color: rgba(201, 168, 76, 0.45);
+  color: var(--gold);
 }
 .nav-btn.music-playing {
   background: rgba(201, 168, 76, 0.15);
@@ -332,6 +346,25 @@ button { font-family: var(--font-sans); }
   filter: saturate(1.05);
   will-change: transform;
 }
+@media (max-width: 768px) {
+  .hero-bg {
+    background:
+      linear-gradient(180deg,
+        rgba(13, 10, 15, 0.38) 0%,
+        rgba(13, 10, 15, 0.25) 45%,
+        rgba(13, 10, 15, 0.62) 100%),
+      url('../images/hero-mobile.jpg'),
+      var(--gradient-hero);
+    background-size: cover, cover, cover;
+    background-position: 80% 18%;
+    background-repeat: no-repeat;
+  }
+}
+@media (max-width: 480px) {
+  .hero-bg {
+    background-position: 62% 12%;
+  }
+}
 
 /* Petals */
 .petals-wrap {
@@ -377,14 +410,47 @@ button { font-family: var(--font-sans); }
 
 .hero-names {
   font-family: 'Pinyon Script', cursive;
-  font-size: clamp(5rem, 16vw, 12rem);
+  font-size: clamp(4rem, 13vw, 10rem);
   color: var(--white);
-  line-height: 1;
+  line-height: 1.05;
   margin-bottom: 1.25rem;
   opacity: 0;
   animation: heroUp 1s var(--ease) forwards 0.85s;
-  text-shadow: 0 0 100px rgba(201, 168, 76, 0.35), 0 4px 8px rgba(0,0,0,0.5);
-  letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.hero-name-bride,
+.hero-name-groom {
+  display: block;
+  text-shadow: 0 0 80px rgba(201,168,76,0.5), 0 4px 12px rgba(0,0,0,0.55);
+  letter-spacing: 0.02em;
+}
+.hero-name-bride {
+  animation: shimmerBride 3s ease-in-out infinite alternate;
+}
+.hero-name-groom {
+  animation: shimmerGroom 3s ease-in-out infinite alternate;
+}
+.hero-name-amp {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--gold);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  margin: 0.15em 0;
+  opacity: 0.9;
+  text-shadow: 0 0 30px rgba(201,168,76,0.7);
+}
+@keyframes shimmerBride {
+  from { text-shadow: 0 0 60px rgba(201,168,76,0.4), 0 4px 12px rgba(0,0,0,0.55); }
+  to   { text-shadow: 0 0 120px rgba(201,168,76,0.7), 0 4px 12px rgba(0,0,0,0.55); }
+}
+@keyframes shimmerGroom {
+  from { text-shadow: 0 0 120px rgba(201,168,76,0.7), 0 4px 12px rgba(0,0,0,0.55); }
+  to   { text-shadow: 0 0 60px rgba(201,168,76,0.4), 0 4px 12px rgba(0,0,0,0.55); }
 }
 
 .hero-line {
@@ -781,8 +847,9 @@ button { font-family: var(--font-sans); }
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: minmax(320px, 560px);
   gap: 2rem;
+  justify-content: center;
 }
 
 .ev-card {
@@ -938,23 +1005,35 @@ button { font-family: var(--font-sans); }
 @media (max-width: 900px) {
   .gallery-grid-ext {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 200px;
+    grid-auto-rows: 260px;
   }
   .gallery-grid-ext .gal-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
   .gallery-grid-ext .gal-item:nth-child(9) { grid-column: span 1; }
+  /* Show upper portion of image so faces aren't cropped */
+  .gal-item { background-position: center 20%; }
 }
 
 @media (max-width: 768px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
   .gal-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
   .gal-item:nth-child(4) { grid-column: span 1; }
+  .gal-item { background-position: center 20%; }
+  /* Mosaic: anchor faces to top */
+  .mosaic-item { background-position: center 20%; }
+  /* Strip: show upper portion */
+  .strip-item { background-position: center 20%; }
 }
+
 @media (max-width: 480px) {
-  .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
-  .gallery-grid-ext { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+  .gallery-grid     { grid-template-columns: 1fr; grid-auto-rows: 280px; }
+  .gallery-grid-ext { grid-template-columns: 1fr; grid-auto-rows: 280px; }
   .gal-item:nth-child(1),
   .gal-item:nth-child(4),
   .gallery-grid-ext .gal-item:nth-child(9) { grid-column: span 1; grid-row: span 1; }
+  /* Portrait single-column — push focal point higher */
+  .gal-item    { background-position: center 15%; }
+  .mosaic-item { background-position: center 15%; }
+  .strip-item  { background-position: center 15%; }
 }
 
 /* ================================================================
@@ -1286,12 +1365,26 @@ button { font-family: var(--font-sans); }
   .cd-item { min-width: 60px; }
   .cd-num { font-size: 2rem; }
   .sh { margin-bottom: 3rem; }
+  /* Lighten hero overlay on mobile so the background couple photo shows through */
+  .hero-bg {
+    background:
+      linear-gradient(180deg,
+        rgba(13, 10, 15, 0.38) 0%,
+        rgba(13, 10, 15, 0.25) 45%,
+        rgba(13, 10, 15, 0.62) 100%),
+      url('../images/hero-mobile.jpg'),
+      var(--gradient-hero);
+    background-size: cover, cover, cover;
+    background-position: 62% 18%;
+    background-repeat: no-repeat;
+  }
 }
 @media (max-width: 480px) {
   .cd-item { min-width: 50px; }
   .cd-num { font-size: 1.6rem; }
   .cd-sep { font-size: 1.6rem; }
   .ev-card, .rsvp-card { border-radius: var(--r-lg); }
+  .hero-bg { background-position: center 12%; }
 }
 
 /* ================================================================
@@ -1357,10 +1450,16 @@ button { font-family: var(--font-sans); }
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center top;
+  background-position: center 15%;
   background-attachment: fixed;
   transform: scale(1.04);
   transition: transform 8s ease;
+}
+@media (max-width: 768px) {
+  .portrait-bg {
+    background-position:45% 20%;
+    background-attachment: scroll;
+  }
 }
 .portrait-banner:hover .portrait-bg { transform: scale(1); }
 .portrait-overlay {
@@ -1452,9 +1551,14 @@ button { font-family: var(--font-sans); }
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 .mosaic-item:hover .mosaic-caption { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) {
+  .mosaic-item { background-position: center 20%; }
+  .strip-item  { background-position: center 20%; }
+}
 @media (max-width: 768px) {
   .mosaic-grid { grid-template-columns: 1fr; }
-  .mosaic-tall { min-height: 300px; }
+  .mosaic-tall { min-height: 360px; }
+  .mosaic-item { background-position: center 18%; }
 }
 
 /* ================================================================
@@ -1582,7 +1686,7 @@ button { font-family: var(--font-sans); }
 }
 @media (max-width: 480px) {
   .strip-grid { grid-template-columns: 1fr; }
-  .strip-item { aspect-ratio: 4 / 3; }
+  .strip-item { aspect-ratio: 4 / 3; background-position: center 18%; }
 }
 
 /* Subtle page grain */
